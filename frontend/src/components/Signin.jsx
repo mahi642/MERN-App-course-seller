@@ -8,7 +8,7 @@ function Signin() {
   const [alert, setAlert] = useState({
     open: false,
     variant: "filled",
-    severity: "success", // Corrected spelling here
+    severity: "success",
     message: "",
   });
 
@@ -25,24 +25,49 @@ function Signin() {
     }
 
     function callback1(res) {
-      res
-        .json()
-        .then(callback2)
-        .catch((err) => {
-          console.error(err);
-          setAlert({
-            open: true,
-            message: "Error occurred",
-            severity: "error", // Corrected spelling here
-            variant: "filled",
+      if (res.ok) {
+        res
+          .json()
+          .then(callback2)
+          .catch((err) => {
+            console.error("Error parsing JSON:", err);
+            setAlert({
+              open: true,
+              message: "Error parsing response.",
+              severity: "error",
+              variant: "filled",
+            });
           });
-        });
+      } else {
+        res
+          .json()
+          .then((data) => {
+            console.error("Signin failed:", data);
+            setAlert({
+              open: true,
+              message: data.message || "Invalid credentials",
+              severity: "error",
+              variant: "filled",
+            });
+          })
+          .catch((err) => {
+            console.error("Error handling response:", err);
+            setAlert({
+              open: true,
+              message: "Signin failed.",
+              severity: "error",
+              variant: "filled",
+            });
+          });
+      }
     }
 
     fetch("http://localhost:3000/admin/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "username":email,
+        "password":password
       },
       body: JSON.stringify({
         username: email,
@@ -55,7 +80,7 @@ function Signin() {
         setAlert({
           open: true,
           message: "Network error occurred.",
-          severity: "error", // Corrected spelling here
+          severity: "error",
           variant: "filled",
         });
       });
@@ -121,7 +146,7 @@ function Signin() {
         open={alert.open}
         autoHideDuration={6000}
         onClose={() => setAlert({ ...alert, open: false })}
-        anchorOrigin={{ vertical: "top", horizontal: "center" }} // Position at the top
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
       >
         <Alert
           onClose={() => setAlert({ ...alert, open: false })}
