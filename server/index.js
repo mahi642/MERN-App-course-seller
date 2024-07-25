@@ -46,12 +46,14 @@ const authenticateJwt = (req, res, next) => {
     const token = authHeader.split(" ")[1];
     jwt.verify(token, secret, (err, user) => {
       if (err) {
+        console.error("JWT verification failed:", err);
         return res.status(403).json({ message: "Forbidden" }); // 403 Forbidden
       }
       req.user = user;
       next();
     });
   } else {
+    console.error("Authorization header missing");
     return res.status(401).json({ message: "Unauthorized" }); // 401 Unauthorized
   }
 };
@@ -99,6 +101,11 @@ app.post("/admin/login", async (req, res) => {
 //Add course
 
 app.post("/admin/courses", authenticateJwt, async (req, res) => {
+  console.log(req.body);
+  if (req.user.role !== "admin") {
+    console.error("User role is not admin");
+    return res.status(403).json({ message: "Forbidden" });
+  }
   const course = new Course(req.body);
   await course.save();
   res.json({ message: "Course created successfully", courseId: course.id });
@@ -138,7 +145,7 @@ app.post("/users/signup", async (req, res) => {
     const newUser = new User({ username, password });
     await newUser.save();
     const token = jwt.sign({ username, role: "user" }, secret, {
-      expiresIn: "1h",
+      expiresIn: "12h",
     });
     res.json({ message: "User created successfully", token });
   }
@@ -151,7 +158,7 @@ app.post("/users/login", async (req, res) => {
   const user = await User.findOne({ username, password });
   if (user) {
     const token = jwt.sign({ username, role: "user" }, secret, {
-      expiresIn: "1h",
+      expiresIn: "12h",
     });
     res.json({ message: "Login Successfull", token });
   } else {

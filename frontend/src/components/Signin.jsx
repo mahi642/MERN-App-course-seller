@@ -1,6 +1,7 @@
 import { TextField, Typography, Button, Snackbar, Alert } from "@mui/material";
 import Card from "@mui/material/Card";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Signin() {
   const [email, setEmail] = useState("");
@@ -12,9 +13,12 @@ function Signin() {
     message: "",
   });
 
+  const navigate = useNavigate();
+
   function handleSignin() {
     function callback2(data) {
-      localStorage.setItem("token", "Bearer " + data.token);
+      localStorage.setItem("token",   data.token);
+
       console.log("Data received from server:", data);
       setAlert({
         open: true,
@@ -22,6 +26,7 @@ function Signin() {
         severity: "success",
         variant: "filled",
       });
+      navigate("/");
     }
 
     function callback1(res) {

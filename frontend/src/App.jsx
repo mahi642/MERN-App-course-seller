@@ -2,6 +2,7 @@ import "./App.css";
 import Signup from "./components/Signup.jsx";
 import Signin from "./components/Signin.jsx";
 import Navbar from "./components/Navbar.jsx";
+import AddCourse from "./components/AddCourse.jsx";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
         <Routes>
           <Route path="/signup" element={<Signup />} />
           <Route path="/signin" element={<Signin />} />
+          <Route path="/addcourse" element={<AddCourse />} />
         </Routes>
       </Router>
     </div>
