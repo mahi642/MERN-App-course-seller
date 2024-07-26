@@ -98,6 +98,15 @@ app.post("/admin/login", async (req, res) => {
   }
 });
 
+//After Login 
+
+app.get("/admin/me",authenticateJwt,(req,res)=>{
+  
+res.json({
+  username:req.user.username
+})
+})
+
 //Add course
 
 app.post("/admin/courses", authenticateJwt, async (req, res) => {
@@ -124,9 +133,29 @@ app.put("/admin/courses/:courseId", authenticateJwt, async (req, res) => {
   }
 });
 
+//Delete course
+
+app.delete("/admin/courses/:courseId",authenticateJwt, async (req, res) => {
+  const courseId = req.params.courseId;
+
+  try {
+    const result = await Course.deleteOne({ _id: courseId });
+
+    if (result.deletedCount === 1) {
+      res.status(200).json({ message: "Course deleted successfully" });
+    } else {
+      res.status(404).json({ message: "Course not found" });
+    }
+  } catch (error) {
+    console.error("Error deleting course:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+
 //Get Courses
 
-app.get("/admin/courses", authenticateJwt, async (req, res) => {
+app.get("/admin/courses/", authenticateJwt, async (req, res) => {
   const courses = await Course.find({});
   res.json({ courses });
 });

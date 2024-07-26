@@ -14,6 +14,7 @@ const AddCourse = () => {
   const [description, setDescription] = useState("");
   const [published, setPublished] = useState(false);
   const [price, setPrice] = useState(0);
+  const [imageUrl,setImageurl] = useState("");
   const [alert, setAlert] = useState({
     open: false,
     severity: "success",
@@ -44,7 +45,7 @@ const AddCourse = () => {
         description: description,
         published: published,
         price: price,
-        imageUrl: "",
+        imageUrl:imageUrl,
       }),
     })
       .then((res) => {
@@ -100,6 +101,12 @@ const AddCourse = () => {
           value={price}
           onChange={(e) => setPrice(Number(e.target.value))}
           margin="normal"
+        />
+        <TextField
+        fullWidth
+        label="Image Link"
+        value ={imageUrl}
+        onChange={(e)=>setImageurl(e.target.value)}
         />
         <FormControlLabel
           control={
