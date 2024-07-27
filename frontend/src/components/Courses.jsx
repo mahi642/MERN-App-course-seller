@@ -1,4 +1,3 @@
-
 import { Typography, Card, CardContent, Grid, Button } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -70,6 +69,10 @@ const Courses = () => {
       .catch((error) => {
         console.error("There was a problem with the fetch operation:", error);
       });
+  };
+
+  const handleEditClick = (courseId) => {
+    navigate(`/editcourse/${courseId}`, { state: { courseId } });
   };
 
   // Filter out courses with missing essential details

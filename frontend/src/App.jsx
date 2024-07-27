@@ -4,6 +4,7 @@ import Signin from "./components/Signin.jsx";
 import Navbar from "./components/Navbar.jsx";
 import AddCourse from "./components/AddCourse.jsx";
 import Courses from "./components/Courses.jsx"
+import EditCourse from "./components/EditCourse.jsx"
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
           <Route path="/signin" element={<Signin />} />
           <Route path="/addcourse" element={<AddCourse />} />
           <Route path = "/courses" element ={<Courses/>}/>
+          <Route path = "/editCourse/:courseId" element = {<EditCourse/>}/>
         </Routes>
       </Router>
     </div>
