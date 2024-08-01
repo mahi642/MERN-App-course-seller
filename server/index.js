@@ -60,11 +60,19 @@ const authenticateJwt = (req, res, next) => {
 
 // connect mongoDB
 
-mongoose.connect(mongoUrl, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  dbName: "courses",
-});
+mongoose
+  .connect(mongoUrl, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    dbName: "courses",
+  })
+  .then(() => {
+    console.log("MongoDB connected");
+  })
+  .catch((err) => {
+    console.error("MongoDB connection error:", err);
+  });
+
 
 // Admin Routes
 
@@ -88,6 +96,7 @@ app.post("/admin/signup", async (req, res) => {
 app.post("/admin/login", async (req, res) => {
   const { username, password } = req.headers;
   const admin = await Admin.findOne({ username, password });
+  console.log(admin);
   if (admin) {
     const token = jwt.sign({ username, role: "admin" }, secret, {
       expiresIn: "12h",

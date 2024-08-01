@@ -6,6 +6,7 @@ import AddCourse from "./components/AddCourse.jsx";
 import Courses from "./components/Courses.jsx"
 import EditCourse from "./components/EditCourse.jsx"
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import LandingPage from "./components/LandingPage.jsx";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/addcourse" element={<AddCourse />} />
           <Route path = "/courses" element ={<Courses/>}/>
           <Route path = "/editCourse/:courseId" element = {<EditCourse/>}/>
+          <Route path = "/landing" element= {<LandingPage/>}></Route>
         </Routes>
       </Router>
     </div>
