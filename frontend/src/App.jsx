@@ -8,11 +8,13 @@ import EditCourse from "./components/EditCourse.jsx";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LandingPage from "./components/LandingPage.jsx";
 import axios from "axios";
-import { RecoilRoot, useSetRecoilState } from "recoil";
+import { RecoilRoot, useSetRecoilState, useRecoilValue } from "recoil";
 import { userState } from "./store/atoms/user.js";
 import { useEffect } from "react";
+import { userEmailState } from "./store/selectors/userEmail.js";
 
 function App() {
+  
   return (
     <div
       style={{
@@ -41,20 +43,20 @@ function App() {
 
 function InitUser() {
   const setUser = useSetRecoilState(userState);
-
+  const userEmail = useRecoilValue(userEmailState);
   useEffect(() => {
     const init = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/me", {
+        const res = await axios.get("http://localhost:3000/admin/me", {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("token"),
           },
         });
 
-        if (res.data.email) {
+        if (res.data.username) {
           setUser({
             isLoading: false,
-            userEmail: res.data.email,
+            userEmail: res.data.username,
           });
         } else {
           setUser({
@@ -72,6 +74,8 @@ function InitUser() {
 
     init();
   }, [setUser]);
+  console.log(userEmail);
+  
 
   return null;
 }

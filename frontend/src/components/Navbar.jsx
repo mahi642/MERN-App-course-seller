@@ -11,7 +11,8 @@ function Navbar() {
   const userEmail = useRecoilValue(userEmailState);
   const setUser = useSetRecoilState(userState);
   const navigate = useNavigate();
-
+  console.log(userEmail);
+  
   if (userLoading) {
     return <div>Loadingggg</div>;
   }

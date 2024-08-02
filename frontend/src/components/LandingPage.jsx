@@ -14,7 +14,7 @@ const LandingPage = () => {
           Join With Us
         </Typography>
 
-        {userEmail && (
+        {!userEmail && (
           <div>
             <Button variant="contained" style={styles.button}>
               Sign In
