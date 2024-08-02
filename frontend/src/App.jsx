@@ -3,31 +3,77 @@ import Signup from "./components/Signup.jsx";
 import Signin from "./components/Signin.jsx";
 import Navbar from "./components/Navbar.jsx";
 import AddCourse from "./components/AddCourse.jsx";
-import Courses from "./components/Courses.jsx"
-import EditCourse from "./components/EditCourse.jsx"
+import Courses from "./components/Courses.jsx";
+import EditCourse from "./components/EditCourse.jsx";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LandingPage from "./components/LandingPage.jsx";
+import axios from "axios";
+import { RecoilRoot, useSetRecoilState } from "recoil";
+import { userState } from "./store/atoms/user.js";
+import { useEffect } from "react";
 
 function App() {
   return (
-    <div style = {{
-      width: "100vw",
-            height: "100vh",
-            backgroundColor: "#eeeeee"
-    }}>
+    <div
+      style={{
+        width: "100vw",
+        height: "100vh",
+        backgroundColor: "#eeeeee",
+      }}
+    >
       <Router>
-        <Navbar />
-        <Routes>
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/signin" element={<Signin />} />
-          <Route path="/addcourse" element={<AddCourse />} />
-          <Route path = "/courses" element ={<Courses/>}/>
-          <Route path = "/editCourse/:courseId" element = {<EditCourse/>}/>
-          <Route path = "/landing" element= {<LandingPage/>}></Route>
-        </Routes>
+        <RecoilRoot>
+          <Navbar />
+          <InitUser />
+          <Routes>
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/signin" element={<Signin />} />
+            <Route path="/addcourse" element={<AddCourse />} />
+            <Route path="/courses" element={<Courses />} />
+            <Route path="/editCourse/:courseId" element={<EditCourse />} />
+            <Route path="/landing" element={<LandingPage />} />
+          </Routes>
+        </RecoilRoot>
       </Router>
     </div>
   );
+}
+
+function InitUser() {
+  const setUser = useSetRecoilState(userState);
+
+  useEffect(() => {
+    const init = async () => {
+      try {
+        const res = await axios.get("http://localhost:3000/me", {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        });
+
+        if (res.data.email) {
+          setUser({
+            isLoading: false,
+            userEmail: res.data.email,
+          });
+        } else {
+          setUser({
+            isLoading: false,
+            userEmail: null,
+          });
+        }
+      } catch (error) {
+        setUser({
+          isLoading: false,
+          userEmail: null,
+        });
+      }
+    };
+
+    init();
+  }, [setUser]);
+
+  return null;
 }
 
 export default App;

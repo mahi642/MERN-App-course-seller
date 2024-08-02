@@ -1,17 +1,29 @@
 import React from "react";
 import { Typography, Grid, Button } from "@mui/material";
+import { useRecoilValue } from "recoil";
+import { userEmailState } from "../store/selectors/userEmail";
+
 
 const LandingPage = () => {
+  const userEmail = useRecoilValue(userEmailState)
+
   return (
     <Grid container style={styles.container}>
       <Grid item xs={12} md={6} style={styles.textContainer}>
         <Typography variant="h2" style={styles.typography}>
-          Join With US
+          Join With Us
         </Typography>
-        
 
-        <Button variant="contained">SignIn</Button>
-        <Button variant="contained">SignUp</Button>
+        {userEmail && (
+          <div>
+            <Button variant="contained" style={styles.button}>
+              Sign In
+            </Button>
+            <Button variant="contained" style={styles.button}>
+              Sign Up
+            </Button>
+          </div>
+        )}
       </Grid>
       <Grid item xs={12} md={6} style={styles.imageContainer}>
         <img style={styles.image} src="/6491439.jpg" alt="image" />
@@ -28,6 +40,7 @@ const styles = {
   },
   textContainer: {
     display: "flex",
+    flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
   },
@@ -35,6 +48,10 @@ const styles = {
     color: "#3f51b5",
     fontWeight: "bold",
     textAlign: "center",
+    marginBottom: "20px",
+  },
+  button: {
+    margin: "10px",
   },
   imageContainer: {
     display: "flex",

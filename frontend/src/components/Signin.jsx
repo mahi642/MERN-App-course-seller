@@ -2,9 +2,13 @@ import { TextField, Typography, Button, Snackbar, Alert } from "@mui/material";
 import Card from "@mui/material/Card";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
+
+import { userState } from "../store/atoms/user";
+
 
 function Signin() {
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState("")
   const [password, setPassword] = useState("");
   const [alert, setAlert] = useState({
     open: false,
@@ -12,12 +16,17 @@ function Signin() {
     severity: "success",
     message: "",
   });
+  const setUser = useSetRecoilState(userState);
 
   const navigate = useNavigate();
 
   function handleSignin() {
     function callback2(data) {
       localStorage.setItem("token",   data.token);
+      setUser({
+        isLoading: false,
+        userEmail: data.email,
+      });
 
       console.log("Data received from server:", data);
       setAlert({
@@ -26,7 +35,7 @@ function Signin() {
         severity: "success",
         variant: "filled",
       });
-      navigate("/");
+      navigate("/landing");
     }
 
     function callback1(res) {
