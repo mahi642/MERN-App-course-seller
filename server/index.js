@@ -169,6 +169,22 @@ app.get("/admin/courses/", authenticateJwt, async (req, res) => {
   res.json({ courses });
 });
 
+app.get("/admin/courses/:courseId", async (req, res) => {
+  const courseId = req.params.courseId;
+
+  try {
+    const course = await Course.findById(courseId);
+    if (!course) {
+      return res.status(404).json({ message: "Course not found" });
+    }
+    res.json(course);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+
 //User Routes
 
 // user SignUp

@@ -22,10 +22,12 @@ function Signin() {
 
   function handleSignin() {
     function callback2(data) {
+      console.log(data.username);
+      
       localStorage.setItem("token",   data.token);
       setUser({
         isLoading: false,
-        userEmail: data.email,
+        userEmail: data.username,
       });
 
       console.log("Data received from server:", data);

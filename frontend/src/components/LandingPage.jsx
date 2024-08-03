@@ -2,10 +2,12 @@ import React from "react";
 import { Typography, Grid, Button } from "@mui/material";
 import { useRecoilValue } from "recoil";
 import { userEmailState } from "../store/selectors/userEmail";
+import { useNavigate } from "react-router-dom";
 
 
 const LandingPage = () => {
   const userEmail = useRecoilValue(userEmailState)
+  const navigate = useNavigate();
 
   return (
     <Grid container style={styles.container}>
@@ -16,10 +18,18 @@ const LandingPage = () => {
 
         {!userEmail && (
           <div>
-            <Button variant="contained" style={styles.button}>
+            <Button variant="contained" style={styles.button}
+            onClick = {()=>{
+              navigate("/signin")
+            }}
+            >
               Sign In
             </Button>
-            <Button variant="contained" style={styles.button}>
+            <Button variant="contained" style={styles.button}
+            onClick={()=>{
+              navigate("/signup");
+            }}
+            >
               Sign Up
             </Button>
           </div>
