@@ -6,9 +6,8 @@ import { useSetRecoilState } from "recoil";
 
 import { userState } from "../store/atoms/user";
 
-
 function Signin() {
-  const [email, setEmail] = useState("")
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [alert, setAlert] = useState({
     open: false,
@@ -23,8 +22,8 @@ function Signin() {
   function handleSignin() {
     function callback2(data) {
       console.log(data.username);
-      
-      localStorage.setItem("token",   data.token);
+
+      localStorage.setItem("token", data.token);
       setUser({
         isLoading: false,
         userEmail: data.username,
@@ -82,8 +81,8 @@ function Signin() {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "username":email,
-        "password":password
+        username: email,
+        password: password,
       },
       body: JSON.stringify({
         username: email,

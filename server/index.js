@@ -79,6 +79,9 @@ mongoose
 // Admin signup
 app.post("/admin/signup", async (req, res) => {
   const { username, password } = req.body;
+  
+  console.log(req.body);
+  
   const admin = await Admin.findOne({ username });
   if (admin) {
     return res.status(400).send("Admin already exists");
@@ -166,7 +169,7 @@ app.delete("/admin/courses/:courseId",authenticateJwt, async (req, res) => {
 
 app.get("/admin/courses/", authenticateJwt, async (req, res) => {
   const courses = await Course.find({});
-  res.json({ courses });
+  res.json({ courses }).status(200);
 });
 
 app.get("/admin/courses/:courseId", async (req, res) => {
@@ -262,3 +265,5 @@ app.get("/users/purchasedCourses", authenticateJwt, async (req, res) => {
 app.listen(3000, () => {
   console.log("server is running on port 3000");
 });
+
+module.exports = app;

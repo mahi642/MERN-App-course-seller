@@ -94,13 +94,15 @@ const Courses = () => {
               >
                 <CardContent>
                   <img
-                    src={course.imageUrl || fallbackImageUrl}
+                    // src={course.imageUrl || fallbackImageUrl}
+                    src = "public/4955888.jpg"
                     alt={course.title}
                     style={{
                       width: "100%",
                       height: "auto",
                       maxHeight: "150px", // Adjust as needed
                       objectFit: "cover",
+                      objectPosition:"top"
                     }}
                   />
                   <Typography variant="h6" gutterBottom>
@@ -108,6 +110,9 @@ const Courses = () => {
                   </Typography>
                   <Typography variant="body2">{course.description}</Typography>
                   <Button
+                    style={{
+                      marginRight: "1rem",
+                    }}
                     variant="contained"
                     color="primary"
                     onClick={() => handleEditClick(course._id)}
